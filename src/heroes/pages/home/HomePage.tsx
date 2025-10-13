@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Search, Plus, Zap, Shield, Heart } from "lucide-react"
+import { CustomJumbotron } from "@/components/ui/custom/CustomJumbotron"
 
 interface Hero {
   id: string
@@ -157,13 +158,13 @@ export const HomePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4">
-      <div className="max-w-7xl mx-auto">
+    <>
+      <>
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Superhero Database</h1>
-          <p className="text-gray-600">Discover and manage your favorite superheroes</p>
-        </div>
+        <CustomJumbotron 
+          title="Universo de heroes" 
+          description="Descrubre y explora y administra super heroes y villanos" 
+        />
 
         {/* Search and Add Hero Section */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -327,8 +328,8 @@ export const HomePage = () => {
             <p className="text-gray-600">Try adjusting your search terms or add a new hero to the database.</p>
           </div>
         )}
-      </div>
-    </div>
+      </>
+    </>
   )
 }
 
