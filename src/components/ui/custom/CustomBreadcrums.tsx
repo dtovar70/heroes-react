@@ -1,54 +1,57 @@
-import Link from "next/link"
 
 import {
   Breadcrumb,
-  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { SlashIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export function BreadcrumbDemo() {
+interface Breadcrumb{
+  label: string;
+  to: string;
+}
+
+interface Props {
+  currentPage: string;
+  breadcrumbs: Breadcrumb[];
+}
+
+export const CustomBreadcrums = ({ currentPage, breadcrumbs }: Props) => {
   return (
-    <Breadcrumb>
+    <Breadcrumb className="my-5">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href="/">Home</Link>
+            <Link to="/">Inicio</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
+
+          {breadcrumbs.map((crumb) => (
+
+            <div className="flex items-center">
+
+              <BreadcrumbItem>
+                 <BreadcrumbSeparator>
+                   <SlashIcon/>
+                  </BreadcrumbSeparator>
+                <BreadcrumbLink asChild>
+                  <Link to={crumb.to}>{crumb.label}</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </div>
+          ))}
+
+          <BreadcrumbSeparator>
+            <SlashIcon />
+          </BreadcrumbSeparator>
+
         <BreadcrumbItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1">
-              <BreadcrumbEllipsis className="size-4" />
-              <span className="sr-only">Toggle menu</span>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              <DropdownMenuItem>Documentation</DropdownMenuItem>
-              <DropdownMenuItem>Themes</DropdownMenuItem>
-              <DropdownMenuItem>GitHub</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <BreadcrumbLink className="text-black">{currentPage}</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link href="/docs/components">Components</Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-        </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
   )

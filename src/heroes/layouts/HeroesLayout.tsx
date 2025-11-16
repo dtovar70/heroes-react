@@ -1,5 +1,5 @@
 import { CustomMenu } from "@/components/ui/custom/CustomMenu"
-import { Outlet } from "react-router"
+import { Outlet } from "react-router-dom"
 
 export const HeroesLayout = () => {
   return (
