@@ -8,8 +8,8 @@ export const HeroStats = () => {
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 
         <HeroStatCard 
-        title="Total de Personajes" 
-        icon={<Users className="h-4 w-4 text-muted-foreground" />}
+          title="Total de Personajes" 
+          icon={<Users className="h-4 w-4 text-muted-foreground" />}
         >
             <div className="text-2xl font-bold">16</div>
             <div className="flex gap-1 mt-2">

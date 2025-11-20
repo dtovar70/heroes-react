@@ -3,9 +3,16 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Heart, Eye, Zap, Brain, Gauge, Shield } from "lucide-react"
+import type { Hero } from "../types/heroes.interface"
 
-export const HeroGridCard = () => {
-  return (
+interface Props {
+  hero: Hero;
+}
+
+export const HeroGridCard = ({ hero }: Props) => {
+
+  console.log('en el hero grid card total', { hero });
+  return ( 
     <Card className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br from-white to-gray-50">
             <div className="relative h-64 overflow-hidden">
               <img

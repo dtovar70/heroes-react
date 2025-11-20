@@ -2,20 +2,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CustomJumbotron } from "@/components/ui/custom/CustomJumbotron"
 import { HeroStats } from "@/heroes/components/HeroStats"
 import { HeroGrid } from "@/heroes/components/HeroGrid"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { CustomPagination } from "@/components/ui/custom/CustomPagination"
 import { CustomBreadcrums } from "@/components/ui/custom/CustomBreadcrums"
-import { getHeroesByPage } from "@/heroes/actions/get-heroes-by-page.action"
+import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action"
+import { useQuery } from "@tanstack/react-query"
 
 export const HomePage = () => {
 
   const [activeTab, setActiveTab] = useState<"all" | "favorites" | "heroes" | "villains">("all");
 
-  useEffect(() => {
-    getHeroesByPage().then( data => {
-      console.log({ data });
-    })
-  }, []);
+  const { data: heroesResponse } = useQuery({
+    queryKey: ['heroes'],
+    queryFn: () => getHeroesByPageAction(),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
 
   return (
     <>
@@ -49,22 +50,27 @@ export const HomePage = () => {
 
           <TabsContent value="all">
             {/* Mostrar todos los personajes */}
-            <HeroGrid />
+            <HeroGrid 
+              heroes={heroesResponse?.heroes ?? []}
+            />
           </TabsContent>
           <TabsContent value="favorites">
             {/* Mostrar todos los personajes favoritos */}
             <h1>Favoritos!!!</h1>
-            <HeroGrid />
+            <HeroGrid 
+            />
           </TabsContent>
           <TabsContent value="heroes">
             {/* Mostrar todos los héroes */}
             <h1>Heroes!!!</h1>
-            <HeroGrid />
+            <HeroGrid 
+            />
           </TabsContent>
           <TabsContent value="villains">
             {/* Mostrar todos los villanos */}
             <h1>Villanos!!!</h1>
-            <HeroGrid />
+            <HeroGrid 
+            />
           </TabsContent>
         </Tabs>
 
