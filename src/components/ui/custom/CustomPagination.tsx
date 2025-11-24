@@ -1,5 +1,6 @@
-import { ChevronLeft, MoreHorizontal, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "../button"
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
     totalPages: number;
@@ -7,14 +8,26 @@ interface Props {
 
 export const CustomPagination = ({ totalPages }:Props) => {
 
-  let page = 1;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const queryPage = searchParams.get('page') ?? '1';
+  const page = isNaN(+queryPage) ? 1 : +queryPage;
+
+  const handlePageChange = ( page: number ) => {
+    if( page < 1 || page > totalPages ) return; 
+
+    searchParams.set('page', page.toString());
+    setSearchParams( searchParams );
+   }
 
   return (
     <div className="flex items-center justify-center space-x-2">
         <Button variant="outline" size="sm" 
-        disabled={ page === 1 ? true : false }>
+            disabled={ page === 1}
+            onClick={ () => handlePageChange( page - 1 ) }
+        >
         <ChevronLeft className="h-4 w-4" />
-        Anteriores
+            Anteriores
         </Button>
 
         {
@@ -23,6 +36,7 @@ export const CustomPagination = ({ totalPages }:Props) => {
                     key={ index } 
                     variant={ page === index + 1 ? "default" : "outline" } 
                     size="sm"
+                    onClick={ () => handlePageChange( index + 1 ) }
                 >
                     { index + 1 }
                 </Button>
@@ -37,7 +51,9 @@ export const CustomPagination = ({ totalPages }:Props) => {
         </Button> */}
 
         <Button variant="outline" size="sm"
-            disabled={ page === totalPages ? true : false }>
+            disabled={ page === totalPages}
+            onClick={ () => handlePageChange( page + 1 ) }
+        >
             Siguientes
             <ChevronRight className="h-4 w-4" />
         </Button>
