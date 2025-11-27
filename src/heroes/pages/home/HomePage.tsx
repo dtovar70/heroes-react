@@ -9,6 +9,7 @@ import { CustomPagination } from "@/components/ui/custom/CustomPagination"
 import { CustomBreadcrums } from "@/components/ui/custom/CustomBreadcrums"
 import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action"
 import { useMemo } from "react"
+import { getSummaryAction } from "@/heroes/actions/get-summary.action"
 
 
 export const HomePage = () => {
@@ -28,6 +29,12 @@ export const HomePage = () => {
   const { data: heroesResponse } = useQuery({
     queryKey: ['heroes', {page, limit}],
     queryFn: () => getHeroesByPageAction(+page, +limit),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
+
+  const { data: summary } = useQuery({
+    queryKey: ['summary-information'],
+    queryFn: getSummaryAction,
     staleTime: 1000 * 60 * 5, // 5 minutes
   })
 
@@ -58,7 +65,7 @@ export const HomePage = () => {
                 prev.set('tab', 'all');
                 return prev;
               }) }
-            >All Characters (16)</TabsTrigger>
+            >All Characters ({summary?.totalHeroes})</TabsTrigger>
             <TabsTrigger value="favorites" className="flex items-center gap-2" onClick={ () => setSearchParams((prev) => { 
               prev.set('tab', 'favorites');
               return prev;
@@ -68,11 +75,11 @@ export const HomePage = () => {
             <TabsTrigger value="heroes" onClick={ () => setSearchParams((prev) => { 
               prev.set('tab', 'heroes');
               return prev;
-            }) }>Heroes (12)</TabsTrigger>
+            }) }>Heroes ({summary?.heroCount})</TabsTrigger>
             <TabsTrigger value="villains" onClick={ () => setSearchParams((prev) => { 
               prev.set('tab', 'villains');
               return prev;
-            }) }>Villains (2)</TabsTrigger>
+            }) }>Villains ({summary?.villainCount})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="all">
